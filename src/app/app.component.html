@@ -1,0 +1,76 @@
+<head>
+    <title>{{title}}</title>
+</head>
+
+<body class="d-flex flex-column min-vh-100">
+    <header class="p-3 bg-dark text-white">
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
+                    <li><a routerLink="/" class="nav-link px-2 text-light">{{title}}</a></li>
+                </ul>
+                <form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" method="get" action="/search">
+                    <div class="input-group">
+                        <input [(ngModel)]="searchText" type="text" name="text" class="form-control form-control-dark" placeholder="Pretraži..."
+                            aria-label="Search" aria-describedby="search-icon">
+                        <button type="button" class="input-group-text" id="search-icon" (click)="search()">
+                            <fa-icon [icon]="faSearch"></fa-icon>
+                        </button>
+                    </div>
+                </form>
+                <div class="text-end">
+
+                    <a class="btn btn-outline-light me-2" routerLink="/cart">
+                        <fa-icon [icon]="faShoppingCart"></fa-icon>&nbsp;Košarica
+                    </a>
+                    <a routerLink="/login" *ngIf="!isUserLoggedIn()" class="btn btn-outline-light me-2">
+                        <fa-icon [icon]="faArrowRight"></fa-icon>&nbsp;Prijava
+                    </a>
+                    <a routerLink="/register" *ngIf="!isUserLoggedIn()" class="btn btn-light">
+                        <fa-icon [icon]="faUserPlus"></fa-icon>&nbsp;Registracija
+                    </a>
+
+                    <a routerLink="/account" *ngIf="isUserLoggedIn()" class="btn btn-outline-light">
+                        <fa-icon [icon]="faUserCircle"></fa-icon>&nbsp;Moj profil
+                    </a>
+                    <a *ngIf="isUserLoggedIn()" class="btn btn-outline-light" (click)="logout()">
+                        <fa-icon [icon]="faPowerOff"></fa-icon>&nbsp;Odjavi se
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+        <div class="container-fluid">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#category-navbar-toggle" aria-controls="category-navbar-toggle" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="category-navbar-toggle">
+                <ul class="navbar-nav me-auto mb-2 mb-md-0 flex-wrap">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" routerLink="/">Početna</a>
+                    </li>
+                    <app-navigation></app-navigation>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div id="main-body-content">
+        <router-outlet></router-outlet>
+    </div>
+
+    <footer class="bg-dark text-center text-lg-start text-light mt-auto">
+        <div class="container p-4">
+        </div>
+
+        <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+            <fa-icon [icon]="faCopyright"></fa-icon>&nbsp;2024 Copyright: <a class="text-light"
+                routerLink="/">{{title}}</a>
+        </div>
+    </footer>
+</body>

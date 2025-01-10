@@ -1,0 +1,12 @@
+<li class="d-inline-flex" *ngFor="let category of categories$ | async">
+    <div class="nav-item dropdown">
+        <a class="nav-link active" routerLink="/category/{{category.code}}">{{category.name}}</a>
+        <ul class="dropdown-menu" *ngIf="category.subCategories?.length > 0">
+            <li *ngFor="let subCategory of category.subCategories">
+                <div class="d-inline-flex w-100">
+                    <a routerLink="/category/{{subCategory.code}}" class="dropdown-item w-100">{{subCategory.name}}</a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</li>

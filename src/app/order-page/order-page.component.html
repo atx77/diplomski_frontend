@@ -1,0 +1,117 @@
+<div *ngIf="order$ | async as order">
+    <div class="d-flex justify-content-between">
+        <div>
+            <h3>Pregled narudžbe br. {{order.code}}</h3>
+        </div>
+        <div class="text-end">
+            <a routerLink="/account" class="btn btn-outline-primary"><fa-icon [icon]="faCaretLeft"></fa-icon>&nbsp;Povratak na profil</a>
+        </div>
+    </div>
+    <hr>
+    <div class="d-flex justify-content-between">
+        <div style="width:400px;">
+            <div class="row">
+                <div class="col-md-6 fw-bolder">Broj narudžbe:</div>
+                <div class="col-md-6">{{order.code}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 fw-bolder">Datum:</div>
+                <div class="col-md-6">
+                    {{order.creationDate | date:'medium'}}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 fw-bolder">Način plaćanja:</div>
+                <div class="col-md-6">{{order.paymentMethod}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 fw-bolder">Način dostave:</div>
+                <div class="col-md-6">{{order.deliveryMode}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 fw-bolder">Ukupna cijena:</div>
+                <div class="col-md-6">
+                    <h5>
+                        {{order.totalPrice | currency:'EUR':'symbol-narrow'}}
+                    </h5>
+                </div>
+            </div>
+        </div>
+        <div style="width:300px;">
+            <div class="row">
+                <div class="col-md-12 fw-bold">Adresa za dostavu:</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    {{order.address.firstName}}&nbsp;{{order.address.lastName}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">{{order.address.street}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">{{order.address.postcode}}&nbsp;{{order.address.city}}</div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">{{order.address.country}}</div>
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h4 class="my-4">Stavke narudžbe</h4>
+    <div *ngFor="let orderItem of order.orderItems" class="list-group">
+        <div class="list-group-item list-group-item-action d-flex w-100 justify-content-between">
+            <div class="d-flex justify-content-between">
+                <div class="d-flex justify-content-center align-items-center">
+                    <div class="img-wrapper-product-list">
+                        <a class="text-decoration-none text-dark" routerLink="/product/{{orderItem.product.code}}">
+                            <img class="img-thumbnail img-product-list" src="{{orderItem.product.imageUrl}}">
+                        </a>
+                    </div>
+                </div>
+                <div class="justify-content-center ms-3">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <a class="text-decoration-none text-dark" routerLink="/product/{{orderItem.product.code}}">
+                                <h5>{{orderItem.product.name}}</h5>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="row border-bottom" style="width: 400px;">
+                        <div class="col-md-5">Cijena:</div>
+                        <div class="col-md-7">
+                            <h6 *ngIf="orderItem.sellingPrice === orderItem.regularPrice; else productActionPriceBlock">
+                                {{orderItem.sellingPrice | currency:'EUR':'symbol-narrow'}}
+                            </h6>
+                            <ng-template #productActionPriceBlock>
+                                <span class="text-decoration-line-through me-1">
+                                    {{orderItem.regularPrice | currency:'EUR':'symbol-narrow'}}
+                                </span>
+                                <span *ngIf="orderItem.discountPercentage"
+                                    class="me-2 text-success">(-{{orderItem.discountPercentage}}%)</span>
+                                <h6>
+                                    {{orderItem.sellingPrice | currency:'EUR':'symbol-narrow'}}
+                                </h6>
+                            </ng-template>
+                        </div>
+                    </div>
+                    <div class="row border-bottom">
+                        <div class="col-md-5">Količina:</div>
+                        <div class="col-md-7">{{orderItem.quantity}}</div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-5">Ukupno:</div>
+                        <div class="col-md-7">
+                            <span class="fw-bold">{{orderItem.totalPric | currency:'EUR':'symbol-narrow'}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center align-items-center">
+            </div>
+        </div>
+    </div>
+    <hr>
+    <h3 class="my-3">
+        Ukupno:&nbsp;{{order.totalPrice | currency:'EUR':'symbol-narrow'}}
+    </h3>
+</div>

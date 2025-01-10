@@ -1,0 +1,75 @@
+<div id="alert-message-wrapper" class="px-4 my-2 position-fixed" style="top: 10px; right: 10px; z-index: 9999;">
+</div>
+
+<div class="row mb-5" *ngIf="banners$ | async as banners">
+    <div id="bannerCarouselIndicators" class="carousel slide" data-bs-ride="true">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#bannerCarouselIndicators" data-bs-slide-to="0" aria-label="Slide 1"
+                class="active" aria-current="true"></button>
+            <button type="button" data-bs-target="#bannerCarouselIndicators" data-bs-slide-to="1"
+                aria-label="Slide 2"></button>
+        </div>
+        <div class="carousel-inner">
+            <div class="carousel-item active" style="max-height: 40vw">
+                <img src="{{banners[0]}}" class="d-block w-100">
+            </div>
+            <div class="carousel-item" style="max-height: 40vw">
+                <img src="{{banners[1]}}" class="d-block w-100">
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarouselIndicators"
+            data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarouselIndicators"
+            data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+        </button>
+    </div>
+</div>
+
+
+<div class="d-flex justify-content-center text-center mb-2 mt-5">
+    <h3>Najnoviji proizvodi</h3>
+</div>
+<hr>
+<div class="row d-flex justify-content-center">
+    <div *ngFor="let product of newestProducts$ | async"
+        class="col-md-6 col-lg-6 col-xl-5 col-xxl-2 mt-3 basic-example-item">
+        <div class="card shadow-2 d-flex align-items-end flex-column h-100">
+            <a routerLink="/product/{{product.code}}" class="text-decoration-none">
+                <img src="{{product.imageUrl}}" class="card-img-top">
+            </a>
+            <div></div>
+            <div class="d-flex align-items-end mt-auto w-100">
+                <div class="card-body">
+                    <a routerLink="/product/{{product.code}}" class="text-decoration-none text-dark">
+                        <h5 class="card-title">{{product.name}}</h5>
+                    </a>
+                    <hr>
+                    <p class="card-text">
+                        <span *ngIf="!product.actionPrice; else actionPriceContent" class="fw-bold fa-lg">
+                            {{product.regularPrice | currency:'EUR':'symbol-narrow'}}
+                        </span>
+                        <ng-template #actionPriceContent>
+                            <span class="text-decoration-line-through">
+                                {{product.regularPrice | currency:'EUR':'symbol-narrow'}}
+                            </span>
+                            <span class="fw-bold fa-lg">
+                                {{product.actionPrice | currency:'EUR':'symbol-narrow'}}
+                            </span>
+                        </ng-template>
+            
+                    </p>
+            
+                    <div (click)="addToCart(product.code, product.name)" class="btn btn-primary w-100 my-1">
+                        <fa-icon [icon]="faCartPlus"></fa-icon>&nbsp;Dodaj u košaricu
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>

@@ -1,0 +1,111 @@
+<div class="d-flex justify-content-between">
+    <div>
+        <h3>Naplata</h3>
+    </div>
+    <div class="text-end">
+        <a routerLink="/cart" class="btn btn-outline-primary">
+            <fa-icon [icon]="faCaretLeft"></fa-icon>&nbsp;Povratak u košaricu
+        </a>
+    </div>
+</div>
+<hr>
+<div *ngIf="cart$ | async as cart">
+    <h4 *ngIf="cart.cartItems.length < 1; else checkoutContent">Nemate proizvoda u košarici</h4>
+    <ng-template #checkoutContent>
+        <div class="row g-5">
+            <div class="col-md-7 col-lg-8">
+                <h4 class="mb-3">Adresa za dostavu</h4>
+                <form #checkoutForm="ngForm" name="checkoutForm">
+                    <div class="row g-3">
+                        <div class="col-sm-6">
+                            <label for="firstName" class="form-label">Ime</label>
+                            <input [(ngModel)]="checkoutFormModel.firstName" name="firstName" class="form-control"
+                                required="true" />
+                        </div>
+                        <div class="col-sm-6">
+                            <label for="lastName" class="form-label">Prezime</label>
+                            <input [(ngModel)]="checkoutFormModel.lastName" name="lastName" class="form-control"
+                                required="true" />
+                        </div>
+                        <div class="col-12">
+                            <label for="street" class="form-label">Ulica i kućni broj</label>
+                            <input [(ngModel)]="checkoutFormModel.street" name="street" class="form-control"
+                                required="true" />
+                        </div>
+                        <div class="col-md-5">
+                            <label for="country" class="form-label">Država</label>
+                            <select [(ngModel)]="checkoutFormModel.country" name="country" class="form-select"
+                                id="country">
+                                <option>Hrvatska</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="city" class="form-label">Grad</label>
+                            <input [(ngModel)]="checkoutFormModel.city" name="city" class="form-control"
+                                required="true" />
+                        </div>
+                        <div class="col-md-3">
+                            <label for="postcode" class="form-label">Poštanski broj</label>
+                            <input [(ngModel)]="checkoutFormModel.postcode" name="postcode" class="form-control"
+                                required="true" />
+                        </div>
+                    </div>
+                    <hr>
+                    <h4 class="mb-3">Način dostave</h4>
+                    <div class="my-3">
+                        <div *ngFor="let deliveryMode of deliveryModes" class="form-check">
+                            <label class="form-check-label" for="deliveryMode-{{deliveryMode.code}}">
+                                {{deliveryMode.value}}
+                            </label>
+                            <input [(ngModel)]="checkoutFormModel.deliveryMode" type="radio"
+                                value="{{deliveryMode.code}}" id="deliveryMode-{{deliveryMode.code}}"
+                                name="deliveryMode-{{deliveryMode.code}}" class="form-check-input" required="true" />
+                        </div>
+                    </div>
+                    <hr>
+                    <h4 class="mb-3">Način plaćanja</h4>
+                    <div *ngFor="let paymentMethod of paymentMethods" class="form-check">
+                        <label class="form-check-label" for="paymentMethod-{{paymentMethod.code}}">
+                            {{paymentMethod.value}}
+                        </label>
+                        <input [(ngModel)]="checkoutFormModel.paymentMethod" type="radio" value="{{paymentMethod.code}}"
+                            id="paymentMethod-{{paymentMethod.code}}" name="paymentMethod-{{paymentMethod.code}}"
+                            class="form-check-input" required="true" />
+                    </div>
+                    <hr>
+                    <button (click)="doCheckout()" [disabled]="!checkoutForm.valid" class="w-100 btn btn-success btn-lg"
+                        type="button">Završi narudžbu</button>
+                </form>
+            </div>
+            <div class="col-md-5 col-lg-4 order-md-last">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-dark">Pregled košarice</span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-sm bg-light text-dark">
+                        <h6 class="my-0">Artikl (količina)</h6>
+                        <h6 class="my-0">Ukupna cijena</h6>
+                    </li>
+                    <li *ngFor="let cartItem of cart.cartItems"
+                        class="list-group-item d-flex justify-content-between lh-sm">
+                        <div class="justify-content-center">
+                            <h6 class="my-0">{{cartItem.product.name}} ({{cartItem.quantity}})</h6>
+                        </div>
+                        <span class="text-muted">
+                            <span *ngIf="cartItem.product.actionPrice">{{cartItem.product.actionPrice *
+                                cartItem.quantity | currency:'EUR':'symbol-narrow'}}</span>
+                            <span *ngIf="!cartItem.product.actionPrice">{{cartItem.product.regularPrice *
+                                cartItem.quantity | currency:'EUR':'symbol-narrow'}}</span>
+                        </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between lh-sm bg-dark text-light">
+                        <h6 class="my-0">Ukupno</h6>
+                        <h6 class="my-0">
+                            {{cart.totalPrice | currency:'EUR':'symbol-narrow'}}
+                        </h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ng-template>
+</div>

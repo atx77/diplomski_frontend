@@ -1,0 +1,50 @@
+<div *ngIf="registrationFailed">
+    <div class="alert alert-dismissible alert-danger" role="alert">
+        <fa-icon [icon]="faExclamationCircle"></fa-icon>Došlo je do greške! Provjerite e-mail i lozinku.
+    </div>
+</div>
+<div class="w-100 p-4 d-flex justify-content-center">
+    <form #registerForm="ngForm" name="registerForm" style="width: 25rem;">
+        <h1>Registracija</h1>
+        <hr>
+        <div class="form-outline mb-4">
+            <label class="form-label" for="email-input">E-mail addresa</label>
+            <input [(ngModel)]="registerCustomerModel.email" class="form-control" name="email-input" id="email-input"
+                placeholder="E-mail" required type="text">
+        </div>
+
+        <div class="form-outline mb-4">
+            <label class="form-label" for="firstName-input">Ime</label>
+            <input [(ngModel)]="registerCustomerModel.firstName" class="form-control" name="firstName-input"
+                id="firstName-input" placeholder="Ime" required type="text">
+        </div>
+
+        <div class="form-outline mb-4">
+            <label class="form-label" for="lastName-input">Prezime</label>
+            <input [(ngModel)]="registerCustomerModel.lastName" class="form-control" name="lastName-input"
+                id="lastName-input" placeholder="Prezime" required type="text">
+        </div>
+
+        <div class="form-outline mb-4">
+            <label class="form-label" for="password-input">Lozinka</label>
+            <input [(ngModel)]="registerCustomerModel.password" class="form-control" name="password-input"
+                id="password-input" placeholder="Lozinka" required type="password">
+        </div>
+
+        <div class="row mb-4">
+            <div class="col d-flex justify-content-center">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="" id="accept-rules" checked />
+                    <label class="form-check-label" for="accept-rules">Prihvaćam pravila i uvjete</label>
+                </div>
+            </div>
+
+            <div class="col">
+                <a routerLink="/login">Već imate račun?<br>Prijavite se</a>
+            </div>
+        </div>
+
+        <button (click)="register()" [disabled]="!registerForm.valid" type="button"
+            class="btn btn-lg btn-primary mb-4 w-100">Registrirajte se</button>
+    </form>
+</div>

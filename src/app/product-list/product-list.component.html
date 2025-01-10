@@ -1,0 +1,198 @@
+<div id="alert-message-wrapper" class="px-4 my-2 position-fixed" style="top: 10px; right: 10px; z-index: 9999;">
+</div>
+<div class="container-fluid mt-5 mb-5">
+    <div class="row g-2">
+        <div class="col-md-3" *ngIf="productSearchResult?.facets">
+            <form #filterProductsForm="ngForm" name="filterProductsForm">
+                <h5 class="text-uppercase">Sortiranje</h5>
+                <hr>
+                <div class="mb-5">
+                    <select [(ngModel)]="filterFormModel.sort" name="sort" class="form-select">
+                        <option *ngFor="let sortCode of productSearchResult.sortCodes" [value]="sortCode">
+                            {{sortCode}}
+                        </option>
+                    </select>
+                </div>
+
+                <h5 class="text-uppercase">Filteri</h5>
+                <hr>
+
+                <div class="p-2">
+                    <div class="heading d-flex justify-content-between align-items-center">
+                        <h6 class="text-uppercase">Kategorije</h6>
+                    </div>
+                    <div *ngFor="let categoryFacet of visibleCategories; let i = index"
+                        class="d-flex justify-content-between mt-2">
+                        <div class="form-check">
+                            <input (change)="handleClickedCategories(categoryFacet.value, $event)" type="checkbox"
+                                [name]="categoryFacet.value" [value]="categoryFacet.value" class="form-check-input"
+                                [id]="'category-' + categoryFacet.value"
+                                [checked]="filterFormModel.categories.includes(categoryFacet.value)">
+                            <label class="form-check-label" [for]="'category-' + categoryFacet.value">
+                                {{categoryFacet.value}} ({{categoryFacet.count}})
+                            </label>
+                        </div>
+                    </div>
+                    <div *ngIf="showAllCategories">
+                        <div *ngFor="let categoryFacet of remainingCategories" class="d-flex justify-content-between mt-2">
+                            <div class="form-check">
+                                <input (change)="handleClickedCategories(categoryFacet.value, $event)" type="checkbox"
+                                    [name]="categoryFacet.value" [value]="categoryFacet.value" class="form-check-input"
+                                    [id]="'category-' + categoryFacet.value"
+                                    [checked]="filterFormModel.categories.includes(categoryFacet.value)">
+                                <label class="form-check-label" [for]="'category-' + categoryFacet.value">
+                                    {{categoryFacet.value}} ({{categoryFacet.count}})
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button *ngIf="!showAllCategories && remainingCategories.length > 0" (click)="toggleShowAllCategories()"
+                        class="btn btn-link text-decoration-none">
+                        Prikaži sve ({{productSearchResult.facets.categories.length}})
+                    </button>
+                </div>
+                
+                <div class="p-2">
+                    <div class="heading d-flex justify-content-between align-items-center">
+                        <h6 class="text-uppercase">Brand</h6>
+                    </div>
+                    <div *ngFor="let brandFacet of visibleBrands; let i = index"
+                        class="d-flex justify-content-between mt-2">
+                        <div class="form-check">
+                            <input (change)="handleClickedBrands(brandFacet.value, $event)" type="checkbox"
+                                [name]="brandFacet.value" [value]="brandFacet.value" class="form-check-input"
+                                [id]="'brand-' + brandFacet.value"
+                                [checked]="filterFormModel.brands.includes(brandFacet.value)">
+                            <label class="form-check-label" [for]="'brand-' + brandFacet.value">
+                                {{brandFacet.value}} ({{brandFacet.count}})
+                            </label>
+                        </div>
+                    </div>
+                    <div *ngIf="showAllBrands">
+                        <div *ngFor="let brandFacet of remainingBrands" class="d-flex justify-content-between mt-2">
+                            <div class="form-check">
+                                <input (change)="handleClickedBrands(brandFacet.value, $event)" type="checkbox"
+                                    [name]="brandFacet.value" [value]="brandFacet.value" class="form-check-input"
+                                    [id]="'brand-' + brandFacet.value"
+                                    [checked]="filterFormModel.brands.includes(brandFacet.value)">
+                                <label class="form-check-label" [for]="'brand-' + brandFacet.value">
+                                    {{brandFacet.value}} ({{brandFacet.count}})
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <button *ngIf="!showAllBrands && remainingBrands.length > 0" (click)="toggleShowAllBrands()"
+                        class="btn btn-link text-decoration-none">
+                        Prikaži sve ({{productSearchResult.facets.brands.length}})
+                    </button>
+                </div>
+                <hr>
+                <div class="p-2">
+                    <div class="heading d-flex justify-content-between align-items-center">
+                        <h6 class="text-uppercase">Rasprodaja</h6>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <div class="form-check">
+                            <input [(ngModel)]="filterFormModel.isOnSale" type="checkbox" id="isOnSale" name="isOnSale"
+                                [value]="true" class="form-check-input">
+                            <label class="form-check-label" for="isOnSale">Na rasprodaji</label>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="p-2">
+                    <div class="heading d-flex justify-content-between align-items-center">
+                        <h6 class="text-uppercase">Cijena</h6>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <div class="w-100">
+                            <label class="form-label" for="minPrice">Najniža cijena</label>
+                            <input [(ngModel)]="filterFormModel.minPrice" type="number" id="minPrice" name="minPrice"
+                                class="form-control" min="0.01" step="0.01">
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between mt-2">
+                        <div class="w-100">
+                            <label class="form-label" for="maxPrice">Najviša cijena</label>
+                            <input [(ngModel)]="filterFormModel.maxPrice" type="number" id="maxPrice" name="maxPrice"
+                                class="form-control" min="0.01" step="0.01">
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="p-2">
+                    <button (click)="filterResults()" type="button" class="btn btn-dark w-100">
+                        <fa-icon [icon]="faFilter"></fa-icon>&nbsp;Filtriraj
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-md-9" id="all-products-wrapper">
+            <div class="row g-2">
+                <h4>Rezultati pretrage za "{{searchQuery}}"</h4>
+
+                <h6 *ngIf="productSearchResult?.products?.length < 1; else foundProductsMessage">
+                    Nije pronađen niti jedan proizvod
+                </h6>
+                <ng-template #foundProductsMessage>
+                    <h6>Pronađeno {{productSearchResult.totalResults}} proizvoda</h6>
+                </ng-template>
+
+                <div *ngFor="let product of productSearchResult.products"
+                    class="col-md-6 col-lg-6 col-xl-4 col-xxl-3 mt-3 basic-example-item">
+                    <div class="card shadow-2 d-flex flex-column h-100">
+                        <a [routerLink]="['/product', product.code]" class="text-decoration-none">
+                            <img [src]="product.imageUrl" class="card-img-top" style="width: 100%; height: auto;">
+                        </a>
+                        <div class="d-flex align-items-end mt-auto w-100">
+                            <div class="card-body">
+                                <a [routerLink]="['/product', product.code]" class="text-decoration-none text-dark">
+                                    <h5 class="card-title">{{product.name}}</h5>
+                                </a>
+                                <hr>
+                                <p class="card-text">
+                                    <span *ngIf="!product.actionPrice; else actionPriceContent" class="fw-bold fa-lg">
+                                        {{product.regularPrice | currency:'EUR':'symbol-narrow'}}
+                                    </span>
+                                    <ng-template #actionPriceContent>
+                                        <span class="text-decoration-line-through">
+                                            {{product.regularPrice | currency:'EUR':'symbol-narrow'}}
+                                        </span>
+                                        <span class="fw-bold fa-lg">
+                                            {{product.actionPrice | currency:'EUR':'symbol-narrow'}}
+                                        </span>
+                                    </ng-template>
+                                </p>
+                                <div (click)="addToCart(product.code, product.name)" class="btn btn-primary w-100 my-1">
+                                    <fa-icon [icon]="faCartPlus"></fa-icon>&nbsp;Dodaj u košaricu
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12 mt-3" *ngIf="productSearchResult.totalPages > 1">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination justify-content-center">
+                            <li class="page-item" [class.disabled]="productSearchResult.currentPage === 1">
+                                <button class="page-link"
+                                    (click)="onPageChange(productSearchResult.currentPage - 1)">Prethodna</button>
+                            </li>
+                            <li class="page-item" *ngFor="let pageNum of getPageNumbers()"
+                                [class.active]="pageNum === productSearchResult.currentPage">
+                                <button class="page-link" (click)="onPageChange(pageNum)">{{pageNum}}</button>
+                            </li>
+                            <li class="page-item"
+                                [class.disabled]="productSearchResult.currentPage === productSearchResult.totalPages">
+                                <button class="page-link"
+                                    (click)="onPageChange(productSearchResult.currentPage + 1)">Sljedeća</button>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

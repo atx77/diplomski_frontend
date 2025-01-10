@@ -1,0 +1,7 @@
+<app-product-list
+  [productSearchResult]="productSearchResult$ | async"
+  [searchQuery]="searchText"
+  [filterFormModel]="filterFormModel"
+  (filterChanged)="onFilterChanged($event)"
+  (pageChanged)="onPageChange($event)">
+</app-product-list>
