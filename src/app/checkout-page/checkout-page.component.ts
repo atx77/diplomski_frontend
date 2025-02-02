@@ -23,7 +23,7 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
   paymentMethods = [
     {
       code: 'CREDIT_CARD',
-      value: 'Kreditna kartica'
+      value: 'Credit card'
     },
     {
       code: 'PAYPAL',
@@ -31,22 +31,22 @@ export class CheckoutPageComponent implements OnInit, OnDestroy {
     },
     {
       code: 'CASH_ON_DELIVERY',
-      value: 'Plaćanje pouzećem'
+      value: 'Cash on delivery'
     }
   ];
 
   deliveryModes = [
     {
       code: 'COURIER',
-      value: 'Kurirska dostava'
+      value: 'Address delivery'
     },
     {
       code: 'EXPRESS',
-      value: 'Ekspresna dostava'
+      value: 'Express delivery'
     },
     {
       code: 'PERSONAL_PICKUP',
-      value: 'Osobno preuzimanje'
+      value: 'Personal pickup'
     }
   ]
 
