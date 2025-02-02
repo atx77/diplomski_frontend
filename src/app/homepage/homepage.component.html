@@ -40,7 +40,11 @@
         class="col-md-6 col-lg-6 col-xl-5 col-xxl-2 mt-3 basic-example-item">
         <div class="card shadow-2 d-flex align-items-end flex-column h-100">
             <a routerLink="/product/{{product.code}}" class="text-decoration-none">
-                <img src="{{product.imageUrl}}" class="card-img-top">
+                <img
+                src="{{product.imageUrl}}"
+                class="card-img-top w-100"
+                style="object-fit: cover; height: 200px;"
+              />
             </a>
             <div></div>
             <div class="d-flex align-items-end mt-auto w-100">
