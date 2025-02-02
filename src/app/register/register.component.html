@@ -5,7 +5,7 @@
 </div>
 <div class="w-100 p-4 d-flex justify-content-center">
     <form #registerForm="ngForm" name="registerForm" style="width: 25rem;">
-        <h1>Registracija</h1>
+        <h1>Registration</h1>
         <hr>
         <div class="form-outline mb-4">
             <label class="form-label" for="email-input">E-mail address</label>
@@ -16,19 +16,19 @@
         <div class="form-outline mb-4">
             <label class="form-label" for="firstName-input">First name</label>
             <input [(ngModel)]="registerCustomerModel.firstName" class="form-control" name="firstName-input"
-                id="firstName-input" placeholder="Ime" required type="text">
+                id="firstName-input" placeholder="First name" required type="text">
         </div>
 
         <div class="form-outline mb-4">
             <label class="form-label" for="lastName-input">Last name</label>
             <input [(ngModel)]="registerCustomerModel.lastName" class="form-control" name="lastName-input"
-                id="lastName-input" placeholder="Prezime" required type="text">
+                id="lastName-input" placeholder="Last name" required type="text">
         </div>
 
         <div class="form-outline mb-4">
             <label class="form-label" for="password-input">Password</label>
             <input [(ngModel)]="registerCustomerModel.password" class="form-control" name="password-input"
-                id="password-input" placeholder="Lozinka" required type="password">
+                id="password-input" placeholder="Password" required type="password">
         </div>
 
         <div class="row mb-4">

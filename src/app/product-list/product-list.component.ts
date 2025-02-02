@@ -103,7 +103,7 @@ export class ProductListComponent implements OnInit {
 
   addAlert(productName: string) {
     const alertHtml = `<div class="alert alert-dismissible alert-success" role="alert">
-      &nbsp;Dodali ste proizvod '${productName}' u košaricu
+      &nbsp;Product '${productName}' added to cart
       <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
     </div>`;
     const wrapper = document.getElementById('alert-message-wrapper');
