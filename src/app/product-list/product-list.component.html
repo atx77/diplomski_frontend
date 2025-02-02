@@ -4,7 +4,7 @@
     <div class="row g-2">
         <div class="col-md-3" *ngIf="productSearchResult?.facets">
             <form #filterProductsForm="ngForm" name="filterProductsForm">
-                <h5 class="text-uppercase">Sortiranje</h5>
+                <h5 class="text-uppercase">Sort</h5>
                 <hr>
                 <div class="mb-5">
                     <select [(ngModel)]="filterFormModel.sort" name="sort" class="form-select">
@@ -14,12 +14,12 @@
                     </select>
                 </div>
 
-                <h5 class="text-uppercase">Filteri</h5>
+                <h5 class="text-uppercase">Filters</h5>
                 <hr>
 
                 <div class="p-2">
                     <div class="heading d-flex justify-content-between align-items-center">
-                        <h6 class="text-uppercase">Kategorije</h6>
+                        <h6 class="text-uppercase">Categories</h6>
                     </div>
                     <div *ngFor="let categoryFacet of visibleCategories; let i = index"
                         class="d-flex justify-content-between mt-2">
@@ -48,7 +48,7 @@
                     </div>
                     <button *ngIf="!showAllCategories && remainingCategories.length > 0" (click)="toggleShowAllCategories()"
                         class="btn btn-link text-decoration-none">
-                        Prikaži sve ({{productSearchResult.facets.categories.length}})
+                        Show all ({{productSearchResult.facets.categories.length}})
                     </button>
                 </div>
                 
@@ -83,37 +83,37 @@
                     </div>
                     <button *ngIf="!showAllBrands && remainingBrands.length > 0" (click)="toggleShowAllBrands()"
                         class="btn btn-link text-decoration-none">
-                        Prikaži sve ({{productSearchResult.facets.brands.length}})
+                        Show all ({{productSearchResult.facets.brands.length}})
                     </button>
                 </div>
                 <hr>
                 <div class="p-2">
                     <div class="heading d-flex justify-content-between align-items-center">
-                        <h6 class="text-uppercase">Rasprodaja</h6>
+                        <h6 class="text-uppercase">Sale</h6>
                     </div>
                     <div class="d-flex justify-content-between mt-2">
                         <div class="form-check">
                             <input [(ngModel)]="filterFormModel.isOnSale" type="checkbox" id="isOnSale" name="isOnSale"
                                 [value]="true" class="form-check-input">
-                            <label class="form-check-label" for="isOnSale">Na rasprodaji</label>
+                            <label class="form-check-label" for="isOnSale">On sale</label>
                         </div>
                     </div>
                 </div>
                 <hr>
                 <div class="p-2">
                     <div class="heading d-flex justify-content-between align-items-center">
-                        <h6 class="text-uppercase">Cijena</h6>
+                        <h6 class="text-uppercase">Price range</h6>
                     </div>
                     <div class="d-flex justify-content-between mt-2">
                         <div class="w-100">
-                            <label class="form-label" for="minPrice">Najniža cijena</label>
+                            <label class="form-label" for="minPrice">Lowest price</label>
                             <input [(ngModel)]="filterFormModel.minPrice" type="number" id="minPrice" name="minPrice"
                                 class="form-control" min="0.01" step="0.01">
                         </div>
                     </div>
                     <div class="d-flex justify-content-between mt-2">
                         <div class="w-100">
-                            <label class="form-label" for="maxPrice">Najviša cijena</label>
+                            <label class="form-label" for="maxPrice">Highest price</label>
                             <input [(ngModel)]="filterFormModel.maxPrice" type="number" id="maxPrice" name="maxPrice"
                                 class="form-control" min="0.01" step="0.01">
                         </div>
@@ -122,7 +122,7 @@
                 <hr>
                 <div class="p-2">
                     <button (click)="filterResults()" type="button" class="btn btn-dark w-100">
-                        <fa-icon [icon]="faFilter"></fa-icon>&nbsp;Filtriraj
+                        <fa-icon [icon]="faFilter"></fa-icon>&nbsp;Filter
                     </button>
                 </div>
             </form>
@@ -130,13 +130,13 @@
 
         <div class="col-md-9" id="all-products-wrapper">
             <div class="row g-2">
-                <h4>Rezultati pretrage za "{{searchQuery}}"</h4>
+                <h4>Results for search "{{searchQuery}}"</h4>
 
                 <h6 *ngIf="productSearchResult?.products?.length < 1; else foundProductsMessage">
-                    Nije pronađen niti jedan proizvod
+                    No products found
                 </h6>
                 <ng-template #foundProductsMessage>
-                    <h6>Pronađeno {{productSearchResult.totalResults}} proizvoda</h6>
+                    <h6>Found {{productSearchResult.totalResults}} products</h6>
                 </ng-template>
 
                 <div *ngFor="let product of productSearchResult.products"
@@ -165,7 +165,7 @@
                                     </ng-template>
                                 </p>
                                 <div (click)="addToCart(product.code, product.name)" class="btn btn-primary w-100 my-1">
-                                    <fa-icon [icon]="faCartPlus"></fa-icon>&nbsp;Dodaj u košaricu
+                                    <fa-icon [icon]="faCartPlus"></fa-icon>&nbsp;Add to cart
                                 </div>
                             </div>
                         </div>
@@ -177,7 +177,7 @@
                         <ul class="pagination justify-content-center">
                             <li class="page-item" [class.disabled]="productSearchResult.currentPage === 1">
                                 <button class="page-link"
-                                    (click)="onPageChange(productSearchResult.currentPage - 1)">Prethodna</button>
+                                    (click)="onPageChange(productSearchResult.currentPage - 1)">Previous</button>
                             </li>
                             <li class="page-item" *ngFor="let pageNum of getPageNumbers()"
                                 [class.active]="pageNum === productSearchResult.currentPage">
@@ -186,7 +186,7 @@
                             <li class="page-item"
                                 [class.disabled]="productSearchResult.currentPage === productSearchResult.totalPages">
                                 <button class="page-link"
-                                    (click)="onPageChange(productSearchResult.currentPage + 1)">Sljedeća</button>
+                                    (click)="onPageChange(productSearchResult.currentPage + 1)">Next</button>
                             </li>
                         </ul>
                     </nav>

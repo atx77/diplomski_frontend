@@ -1,14 +1,14 @@
 <div *ngIf="cart$ | async as cart">
     <div class="d-flex justify-content-between">
         <div>
-            <h3>Pregled košarice</h3>
+            <h3>Cart overview</h3>
         </div>
         <div class="text-end">
 
             <a *ngIf="cart.cartItems.length > 0; else disabledCheckoutButton" routerLink="/checkout"
-                class="btn btn-primary btn-lg">Nastavi na plaćanje&nbsp;<fa-icon [icon]="faCaretRight"></fa-icon></a>
+                class="btn btn-primary btn-lg">Continue to payment&nbsp;<fa-icon [icon]="faCaretRight"></fa-icon></a>
             <ng-template #disabledCheckoutButton>
-                <a routerLink="/checkout" class="btn btn-primary btn-lg disabled">Nastavi na plaćanje&nbsp;<fa-icon
+                <a routerLink="/checkout" class="btn btn-primary btn-lg disabled">Continue to payment&nbsp;<fa-icon
                         [icon]="faCaretRight">
                     </fa-icon></a>
             </ng-template>
@@ -16,7 +16,7 @@
     </div>
     <hr>
 
-    <h4 *ngIf="cart.cartItems.length < 1; else cartProductsList">Nemate proizvoda u košarici</h4>
+    <h4 *ngIf="cart.cartItems.length < 1; else cartProductsList">No items in cart</h4>
 
     <ng-template #cartProductsList>
         <div *ngFor="let cartItem of cart.cartItems" class="list-group">
@@ -49,15 +49,15 @@
                             </ng-template>
                         </div>
                         <div>
-                            <span>Količina: <span class="fw-bold">{{cartItem.quantity}}</span></span>
+                            <span>Quantity: <span class="fw-bold">{{cartItem.quantity}}</span></span>
                         </div>
                         <div>
                             <p *ngIf="cartItem.product.actionPrice; else totalPriceContent">
-                                Ukupno:&nbsp;<span class="fw-bold">{{cartItem.product.actionPrice * cartItem.quantity |
+                                Total:&nbsp;<span class="fw-bold">{{cartItem.product.actionPrice * cartItem.quantity |
                                     currency:'EUR':'symbol-narrow'}}</span>
                             </p>
                             <ng-template #totalPriceContent>
-                                <p>Ukupno: <span class="fw-bold">{{cartItem.product.regularPrice * cartItem.quantity |
+                                <p>Total: <span class="fw-bold">{{cartItem.product.regularPrice * cartItem.quantity |
                                         currency:'EUR':'symbol-narrow'}}</span></p>
                             </ng-template>
 
@@ -76,7 +76,7 @@
                     </div>
 
                     <button (click)="removeProduct(cartItem.product.code)" type="button" class="btn btn-danger d-flex">
-                        <fa-icon [icon]="faMinusCircle"></fa-icon>&nbsp;Obriši
+                        <fa-icon [icon]="faMinusCircle"></fa-icon>&nbsp;Remove
                     </button>
                 </div>
             </div>
@@ -85,13 +85,13 @@
 
     <div class="d-flex justify-content-between my-3">
         <h3>
-            Ukupno:&nbsp;{{cart.totalPrice | currency:'EUR':'symbol-narrow'}}
+            Total:&nbsp;{{cart.totalPrice | currency:'EUR':'symbol-narrow'}}
         </h3>
         <div class="text-end">
             <a *ngIf="cart.cartItems.length > 0; else disabledCheckoutButtonBottom" routerLink="/checkout"
-                class="btn btn-primary btn-lg">Nastavi na plaćanje&nbsp;<fa-icon [icon]="faCaretRight"></fa-icon></a>
+                class="btn btn-primary btn-lg">Continue to payment&nbsp;<fa-icon [icon]="faCaretRight"></fa-icon></a>
             <ng-template #disabledCheckoutButtonBottom>
-                <a routerLink="/checkout" class="btn btn-primary btn-lg disabled">Nastavi na plaćanje&nbsp;<fa-icon
+                <a routerLink="/checkout" class="btn btn-primary btn-lg disabled">Continue to payment&nbsp;<fa-icon
                         [icon]="faCaretRight">
                     </fa-icon></a>
             </ng-template>

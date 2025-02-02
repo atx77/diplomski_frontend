@@ -7,63 +7,62 @@
     <hr>
     <div class="w-100 p-4 d-flex justify-content-center">
         <form #updateProfileForm="ngForm" name="updateProfileForm" style="width: 25rem;">
-            <h5>Izmjena osobnih podataka</h5>
+            <h5>Update personal information</h5>
             <div class="form-outline mb-4">
-                <label class="form-label" for="firstName">Ime</label>
+                <label class="form-label" for="firstName">First name</label>
                 <input [(ngModel)]="updatePersonalInformationFormModel.firstName" name="firstName" id="firstName"
                     class="form-control" required="true" />
             </div>
             <div class="form-outline mb-4">
-                <label class="form-label" for="lastName">Prezime</label>
+                <label class="form-label" for="lastName">Last name</label>
                 <input [(ngModel)]="updatePersonalInformationFormModel.lastName" name="lastName" id="lastName"
                     class="form-control" required="true" />
             </div>
             <div class="form-outline mb-4">
-                <label class="form-label" for="password">Lozinka (unesite novu lozinku)</label>
+                <label class="form-label" for="password">New password</label>
                 <input [(ngModel)]="updatePersonalInformationFormModel.password" type="password" name="password"
                     id="password" class="form-control" />
             </div>
 
-            <button (click)="updatePersonalInformation()" type="button" class="btn btn-lg btn-primary mb-4 w-100">Spremi
-                promjene</button>
+            <button (click)="updatePersonalInformation()" type="button" class="btn btn-lg btn-primary mb-4 w-100">Save</button>
         </form>
     </div>
 </div>
 <hr>
 <div class="d-flex justify-content-between">
-    <h5>Povijest narudžbi</h5>
+    <h5>Order history</h5>
     <button type="button" class="btn btn-outline-primary" data-bs-toggle="collapse" data-bs-target="#order-list"
         aria-expanded="false" aria-controls="order-list">
-        <fa-icon [icon]="faAngleDown"></fa-icon>&nbsp;Prikaži povijest narudžbi
+        <fa-icon [icon]="faAngleDown"></fa-icon>&nbsp;Show order history
     </button>
 </div>
 <hr>
 <div *ngIf="orders$ | async as orders">
 
-    <h4 *ngIf="orders.length < 1; else orderListContent">Nemate narudžbi</h4>
+    <h4 *ngIf="orders.length < 1; else orderListContent">No orders</h4>
 
     <ng-template #orderListContent>
         <div class="collapse mb-5" id="order-list">
-            <h6>Pronađeno {{orders.length}} narudžbi</h6>
+            <h6>Found {{orders.length}} orders</h6>
 
 
             <div *ngFor="let order of orders" class="list-group">
                 <div class="list-group-item list-group-item-action d-flex w-100 justify-content-between">
                     <div class="col-md-5">
                         <div class="row">
-                            <div class="col-md-6">Broj narudžbe:</div>
+                            <div class="col-md-6">Order number:</div>
                             <div class="col-md-6">
                                 <h5>{{order.code}}</h5>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">Datum narudžbe:</div>
+                            <div class="col-md-6">Order date:</div>
                             <div class="col-md-6">
                                 {{order.creationDate | date:'medium'}}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-6">Ukupna cijena:</div>
+                            <div class="col-md-6">Total price:</div>
                             <div class="col-md-6">
                                 <h6>{{order.totalPrice | currency:'EUR':'symbol-narrow'}}</h6>
                             </div>
@@ -71,7 +70,7 @@
                     </div>
                     <div class="d-flex justify-content-center align-items-center">
                         <a type="button" class="btn btn-outline-success" routerLink="/account/order/{{order.code}}">
-                            <fa-icon [icon]="faInfoCircle"></fa-icon>&nbsp;Prikaži detalje
+                            <fa-icon [icon]="faInfoCircle"></fa-icon>&nbsp;Show details
                         </a>
                     </div>
                 </div>
